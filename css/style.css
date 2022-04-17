@@ -1,0 +1,239 @@
+*, :before, :after {
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+    vertical-align: baseline;
+}
+html {
+	font-size: 16px;
+}
+body {
+	background-color: whitesmoke;
+}
+header {
+	background-color: rebeccapurple;
+	padding: 30px 40px;
+	color: white;
+	text-align: center;
+}
+main {
+    background-color: transparent;
+}
+footer {
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	background-color: rebeccapurple;
+	padding: 10px;
+	color: white;
+	text-align: center;
+	font-size: 1.2rem;
+}
+p {
+    margin: 0.5rem;
+}
+hr {
+    margin: 1rem;
+}
+h1 {
+	text-align: center;
+	font-size: 2.2rem;
+}
+footer > p {
+    margin-bottom: 0.350rem
+}
+footer > p > a {
+	text-decoration: none;
+	color: black;
+    margin: 0.350rem;
+}
+footer > p > a:hover {
+    color: white;
+}
+button {
+    padding: 0.350rem;
+    margin: 0.350rem;
+    background-color: rebeccapurple;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+button:hover {
+    background-color: black;
+    color: white;
+}
+button > a {
+    text-decoration: none;
+    color: white;
+}
+button.delete-small {
+    color: white;
+    cursor: pointer;
+    background-color: black;
+	border-color: rebeccapurple;
+	display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 1rem;
+    border-radius: .25rem;
+    margin: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+button.delete-small:hover {
+	border-color: black;
+    background-color: red;
+}
+button.mark-complete, button.undo-complete {
+    color: white;
+    cursor: pointer;
+    background-color: green;
+	border-color: rebeccapurple;
+	display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 1rem;
+    border-radius: .25rem;
+    margin: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+button.mark-complete:hover, button.undo-complete:hover {
+    color: black;
+    background: lime;
+}
+button.delete {
+	color: #fff;
+    cursor: pointer;
+    background-color: black;
+	border-color: rebeccapurple;
+	display: inline-block;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    margin: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+button.delete:hover {
+	background-color: red;
+}
+label {
+    font-size: 1.2rem;
+}
+.red {
+    color: red;
+}
+.green {
+    color: green;
+}
+.bold {
+    font-weight: bold;
+}
+a.special-link {
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 5px;
+    border: 1px solid rebeccapurple;
+    color: white;
+    background-color: rebeccapurple;
+    text-decoration: none;
+}
+a.special-link:hover {
+    background-color: black;
+    color: white;
+    border: 1px solid orange;
+}
+div.flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+div.holder {
+    margin: 0.5rem;
+}
+div.center {
+    margin: 0.5rem;
+	text-align: center;
+}
+p.center, h1.center, h2.center, span.center {
+    text-align: center;
+}
+.task-input {
+	margin: 5px auto;
+    border: none;
+    border-radius: 0;
+    width: 75%;
+    padding: 10px;
+    font-size: 1.2rem;
+}
+input.add-task {
+	padding: 10px;
+    width: 25%;
+    color: #fff;
+    background-color: black;
+	border-color: whitesmoke;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+	border-radius: 0;
+	font-size: 1.2rem;
+}
+input[type="submit"]:hover {
+    background-color: red;
+}
+input.center {
+    text-align: center;
+}
+table.to-do {
+	max-width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+	margin: 10px auto;
+	background-color: transparent;
+	color: black;
+	font-size: 1.2rem;
+	padding: 20px 10px;
+}
+table.to-do th {
+	border-collapse: collapse;
+	border: 1px solid black;
+	background-color: rebeccapurple;
+	color: white;
+	padding: 5px;
+}
+table.to-do td {
+	border: 1px solid black;
+    padding: 0.5rem;
+}
+table.to-do tr.completed {
+    background-color: rgb(70, 225, 70);
+}
+table tr:focus {
+    background-color: orange;
+    outline: 0; /*remove outline*/
+}
+table.responsive {
+    display: block;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
+    margin: 0 auto;
+    overflow-x: auto;
+    white-space: nowrap;
+}

@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: WebServer
+    hostname: to-do
+    ports:
+    - "8080:80"
+    #volumes:
+    #- d2:/vol
+  db:
+    image: mysql
+    container_name: MySQLServer
+    hostname: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - d2:/vol
+    environment:
+      MYSQL_USER: Djongov
+      MYSQL_PASSWORD: 19MySQL86$$
+      MYSQL_ROOT_PASSWORD: 19MySQL86$$
+      SERVICE_NAME: mysql
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin:latest
+    container_name: Phpmyadmin
+    hostname: phpmyadmin
+    restart: always
+    ports:
+      - '8081:80'
+    environment:
+      PMA_HOST: db
+networks:
+  default:
+volumes:
+  d2:
