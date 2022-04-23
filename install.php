@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $output .= '<p class="green bold">Database ' . $database . ' successfully created</p>';
                 $stmt->close();
                 $link->select_db($database);
-                $sql = "CREATE TABLE `users` (`id` int(11) NOT NULL AUTO_INCREMENT,`username` varchar(50) NOT NULL,`password` varchar(255) NOT NULL,`admin` tinyint(1) NOT NULL,`created_at` datetime DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY (`id`),UNIQUE KEY `username` (`username`)) ENGINE=InnoDB AUTO_INCREMENT=391 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
+                $sql = "CREATE TABLE `users` (`id` int(11) NOT NULL AUTO_INCREMENT,`username` varchar(50) NOT NULL,`password` varchar(255) NOT NULL,`admin` tinyint(1) NOT NULL,`created_at` datetime DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY (`id`),UNIQUE KEY `username` (`username`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
                 $stmt = $link->prepare($sql);
                 if ($stmt->execute()) {
                     $output .= '<p class="green bold">Users table Created</p>';
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($stmt->execute()) {
                             $output .= '<p class="green bold">Admin User Created</p>';
                             $stmt->close();
-                            $sql = "CREATE TABLE `lists` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,`link` tinyint(1) NOT NULL,`price` tinyint(1) DEFAULT NULL,`shared` tinyint(1) NOT NULL,`public` tinyint(1) NOT NULL,`created_by` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,`created_at` datetime DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
+                            $sql = "CREATE TABLE `lists` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,`link` tinyint(1) NOT NULL,`price` tinyint(1) DEFAULT NULL,`shared` tinyint(1) NOT NULL,`public` tinyint(1) NOT NULL,`created_by` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,`created_at` datetime DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
                             $stmt = $link->prepare($sql);
                             if ($stmt->execute()) {
                                 $output .= '<p class="green bold">Lists table created</p>';
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p>These are the database connection settings. </p>
         <div>
             <label for="database">Database Server</label>
-            <input type="text" name="database-server" placeholder="localhost" value="<?=(isset($_POST['database-server'])) ? htmlspecialchars($_POST['database-server']): null;?>" required />
+            <input type="text" name="database-server" placeholder="mysql" value="<?=(isset($_POST['database-server'])) ? htmlspecialchars($_POST['database-server']): null;?>" required />
         </div>
         <div>
             <label for="database">Database Name</label>

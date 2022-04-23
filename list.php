@@ -91,16 +91,23 @@ if (isset($_GET['list'])) {
             echo '</tbody>';
         echo '</table>';
         if ($public) {
+            /*
             if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === 'on' || $_SERVER['HTTPS'] == 1) || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
                 $protocol = 'https://';
             } else {
                 $protocol = 'http://';
             }
+            */
+            $port = '';
+            if (parse_url($_SERVER['HTTP_HOST'], PHP_URL_PORT)) {
+                $port = ':' . parse_url($_SERVER['HTTP_HOST'], PHP_URL_PORT);
+            }
+
             echo '<h4>Your link to share to the public:</h4>';
             if ($shared) {
-                echo '<p><a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/public?list=' . $list . '" target="_blank">https://' . $_SERVER['SERVER_NAME'] . '/public?list=' . $list . '</a><p>';
+                echo '<p><a href="http://' . $_SERVER['SERVER_NAME'] . $port . '/public?list=' . $list . '" target="_blank">http://' . $_SERVER['SERVER_NAME'] . $port . '/public?list=' . $list . '</a><p>';
             } else {
-                echo '<p><a href="' . $protocol . $_SERVER['SERVER_NAME'] . '/public?name=' . $username . '&list=' . $list . '" target="_blank">https://' . $_SERVER['SERVER_NAME'] . '/public?name=' . $username . '&list=' . $list . '</a><p>';
+                echo '<p><a href="http://' . $_SERVER['SERVER_NAME'] . $port . '/public?name=' . $username . '&list=' . $list . '" target="_blank">http://' . $_SERVER['SERVER_NAME'] . $port . '/public?name=' . $username . '&list=' . $list . '</a><p>';
             }
         }
     }

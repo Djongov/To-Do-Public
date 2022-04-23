@@ -8,16 +8,16 @@ services:
     hostname: to-do
     ports:
     - "8080:80"
-    #volumes:
-    #- d2:/vol
+    volumes:
+    - ./php.inifile:/usr/local/etc/php/php.ini
   db:
     image: mysql
     container_name: MySQLServer
     hostname: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
-    volumes:
-      - d2:/vol
+    #volumes:
+      #- d2:/vol
     environment:
       MYSQL_USER: Djongov
       MYSQL_PASSWORD: 19MySQL86$$
