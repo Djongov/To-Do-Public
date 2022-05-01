@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($stmt->execute()) {
                             $output .= '<p class="green bold">Admin User Created</p>';
                             $stmt->close();
-                            $sql = "CREATE TABLE `lists` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,`link` tinyint(1) NOT NULL,`price` tinyint(1) DEFAULT NULL,`shared` tinyint(1) NOT NULL,`public` tinyint(1) NOT NULL,`created_by` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,`created_at` datetime DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
+                            $sql = "CREATE TABLE `lists` (`id` int(11) NOT NULL AUTO_INCREMENT,`name` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,`link` tinyint(1) NOT NULL,`price` tinyint(1) DEFAULT NULL,`shared` tinyint(1) NOT NULL,`public` tinyint(1) NOT NULL,`show_created_by` tinyint(1) NOT NULL,`show_created_at` tinyint(1) NOT NULL,`created_by` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,`created_at` datetime DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci";
                             $stmt = $link->prepare($sql);
                             if ($stmt->execute()) {
                                 $output .= '<p class="green bold">Lists table created</p>';
@@ -108,33 +108,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p>These are the database connection settings. </p>
         <div>
             <label for="database">Database Server</label>
-            <input type="text" name="database-server" placeholder="mysql" value="<?=(isset($_POST['database-server'])) ? htmlspecialchars($_POST['database-server']): null;?>" required />
+            <input class="task-input" type="text" name="database-server" placeholder="mysql" value="<?=(isset($_POST['database-server'])) ? htmlspecialchars($_POST['database-server']): null;?>" required />
         </div>
         <div>
             <label for="database">Database Name</label>
-            <input type="text" name="database-name" placeholder="'to-do' for example" value="<?=(isset($_POST['database-name'])) ? htmlspecialchars($_POST['database-name']): null;?>" required />
+            <input class="task-input" type="text" name="database-name" placeholder="'to-do' for example" value="<?=(isset($_POST['database-name'])) ? htmlspecialchars($_POST['database-name']): null;?>" required />
         </div>
         <div>
             <label for="database">Database User</label>
-            <input type="text" name="database-user" placeholder="root" value="<?=(isset($_POST['database-user'])) ? htmlspecialchars($_POST['database-user']): null;?>" required />
+            <input class="task-input" type="text" name="database-user" placeholder="root" value="<?=(isset($_POST['database-user'])) ? htmlspecialchars($_POST['database-user']): null;?>" required />
         </div>
         <div>
             <label for="database">Database User password</label>
-            <input type="password" name="database-password" value="<?=(isset($_POST['database-password'])) ? htmlspecialchars($_POST['database-password']): null;?>" required />
+            <input class="task-input" type="password" name="database-password" value="<?=(isset($_POST['database-password'])) ? htmlspecialchars($_POST['database-password']): null;?>" required />
         </div>
         <hr />
         <p>These will be the To-Do account details. This account you will use to login after the installation is complete.</p>
         <div>
             <label for="database">Admin username</label>
-            <input type="text" name="admin-user" value="<?=(isset($_POST['admin-user'])) ? htmlspecialchars($_POST['admin-user']): null;?>" required />
+            <input class="task-input" type="text" name="admin-user" value="<?=(isset($_POST['admin-user'])) ? htmlspecialchars($_POST['admin-user']): null;?>" required />
         </div>
         <div>
             <label for="database">Admin password</label>
-            <input type="password" name="admin-password" value="<?=(isset($_POST['admin-password'])) ? htmlspecialchars($_POST['admin-password']): null;?>" required />
+            <input class="task-input" type="password" name="admin-password" value="<?=(isset($_POST['admin-password'])) ? htmlspecialchars($_POST['admin-password']): null;?>" required />
         </div>
         <div>
             <label for="database">Confirm Admin password</label>
-            <input type="password" name="admin-password-confirm" value="<?=(isset($_POST['admin-password-confirm'])) ? htmlspecialchars($_POST['admin-password-confirm']): null;?>" required />
+            <input class="task-input" type="password" name="admin-password-confirm" value="<?=(isset($_POST['admin-password-confirm'])) ? htmlspecialchars($_POST['admin-password-confirm']): null;?>" required />
         </div>
         <div>
             <button type="submit">Install</button>
