@@ -47,8 +47,11 @@ footer > p > a {
 	color: black;
     margin: 0.350rem;
 }
-footer > p > a:hover {
+footer > p > a {
     color: white;
+}
+footer > p > a:hover {
+    color: black;
 }
 button {
     padding: 0.350rem;
@@ -56,7 +59,9 @@ button {
     background-color: rebeccapurple;
     cursor: pointer;
     font-weight: bold;
+    line-height: 2rem;
     color: white;
+    width: 5rem;
 }
 button:hover {
     background-color: black;
@@ -125,7 +130,7 @@ button.delete {
     user-select: none;
     padding: .375rem .75rem;
     font-size: 1rem;
-    line-height: 1.5;
+    line-height: 1.5rem;
     border-radius: .25rem;
     margin: .25rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
@@ -135,6 +140,9 @@ button.delete:hover {
 }
 label {
     font-size: 1.2rem;
+}
+.height-50px {
+    height: 50px;
 }
 .red {
     color: red;
@@ -177,11 +185,11 @@ p.center, h1.center, h2.center, span.center {
 }
 .task-input {
 	margin: 5px auto;
-    border: none;
     border-radius: 0;
     width: 75%;
     padding: 10px;
     font-size: 1.2rem;
+    border: 1px solid black;
 }
 input.add-task {
 	padding: 10px;
@@ -236,4 +244,10 @@ table.responsive {
     margin: 0 auto;
     overflow-x: auto;
     white-space: nowrap;
+}
+table.table-center {
+    margin: 0 auto;
+}
+table.table-center td {
+    padding: 0.750rem;
 }

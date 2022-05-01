@@ -61,13 +61,13 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/pages/html-start.php';
     <form method="post">
         <div>
             <label>Username</label><br/>
-            <input type="text" name="username" value="<?=htmlspecialchars($username)?>" required />
+            <input class="task-input" type="text" name="username" value="<?=htmlspecialchars($username)?>" required />
         </div>
         <div>
             <label>Password</label><br/>
-            <input type="password" name="password" required />
+            <input class="task-input" type="password" name="password" required />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit">Login</button>
     </form>
     <p><?=$output?></p>
 </div>

@@ -73,7 +73,7 @@ echo '</table>';
 echo '<table class="to-do responsive">';
     echo '<thead>';
         echo '<tr>';
-            $stmt = $link->prepare("SHOW COLUMNS FROM lists");
+            $stmt = $link->prepare("SHOW COLUMNS FROM `lists`");
             if ($stmt->execute()) {
                 $columns_result = $stmt->get_result();
                 while($columns = mysqli_fetch_array($columns_result, MYSQLI_ASSOC)) {
@@ -89,7 +89,7 @@ echo '<table class="to-do responsive">';
     echo '</thead>';
     echo '<tbody>';
         echo '<tr>';
-            $stmt = $link->prepare("SELECT * FROM lists");
+            $stmt = $link->prepare("SELECT * FROM `lists`");
             $all_lists = [];
             if ($stmt->execute()) {
                 $result = $stmt->get_result();
@@ -111,7 +111,7 @@ echo '</table>';
 echo '<h1>Delete List</h1>';
 echo '<form id="form-delete-list" method="post" action="">';
 echo '<div class="center">';
-echo '<select name="delete_list">';
+echo '<select class="height-50px" name="delete_list">';
     foreach ($all_lists as $lists_entries) {
         echo '<option value="' . $lists_entries . '">' . $lists_entries . '</option>';
     }
@@ -125,20 +125,58 @@ echo '</form>';
 <h1>Create new list in the database</h1>
 <div class="center">
 <form method="post" action="">
-<label for="type">with Link</label>
-    <input type="checkbox" name="link" id="type" value="yes" />
-<br />
-<label for="type">with Price</label>
-    <input type="checkbox" name="price" id="type" value="yes" />
-<br />
-<label for="type">Public (get special publicly accessible link)</label>
-    <input type="checkbox" name="public" id="type" value="yes" />
-<br />
-<label for="type">Shared (between users)</label>
-    <input type="checkbox" name="shared" id="type" value="yes" />
-<br />
+<table class="table-center">
+    <tr>
+        <td>
+            <label for="link">with Link</label>
+        </td>
+        <td>
+            <input type="checkbox" name="link" value="yes" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="price">with Price</label>
+        </td>
+        <td>
+            <input type="checkbox" name="price" value="yes" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="public">Public (get special publicly accessible link)</label>
+        </td>
+        <td>
+            <input type="checkbox" name="public" value="yes" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="shared">Shared (between users)</label>
+        </td>
+        <td>
+            <input type="checkbox" name="shared" value="yes" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="show_created_by">Show the created by column</label>
+        </td>
+        <td>
+            <input type="checkbox" name="show_created_by" value="yes" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label for="show_created_at">Show the created date column</label>
+        </td>
+        <td>
+            <input type="checkbox" name="show_created_at" value="yes" />
+        </td>
+    </tr>
+</table>
 <label for="list-name">
-<input type="text" name="list-name" required />
+<input type="text" class="task-input" name="list-name" placeholder="list name..." required />
 </label>
 <button type="submit">Create</button>
 </form>
@@ -151,6 +189,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $price = (isset($_POST['price']) && $_POST['price'] === "yes") ? 1 : 0;
             $public = (isset($_POST['public']) && $_POST['public'] === "yes") ? 1 : 0;
             $shared = (isset($_POST['shared']) && $_POST['shared'] === "yes") ? 1 : 0;
+            $show_created_by = (isset($_POST['show_created_by']) && $_POST['show_created_by'] === "yes") ? 1 : 0;
+            $show_created_at = (isset($_POST['show_created_at']) && $_POST['show_created_at'] === "yes") ? 1 : 0;
             $list_name = htmlspecialchars(strtolower($_POST['list-name']));
             $list_name = mysqli_real_escape_string($link, $list_name);
 
@@ -166,8 +206,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $stmt = $link->prepare("CREATE TABLE IF NOT EXISTS `$list_name` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `task` VARCHAR(255) NULL , `link` VARCHAR(255) NULL , `price` VARCHAR(255) NULL , completed BOOLEAN DEFAULT 0 , `created_by` VARCHAR(60) NOT NULL , `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
                     if ($stmt->execute()) {
                         $stmt->close();
-                        $stmt = $link->prepare("INSERT INTO `lists` (`name`, `link`, `price`, `shared`, `public`, `created_by`) VALUES (?, ?, ?, ?, ?, ?)");
-                        $stmt->bind_param("siiiis", $list_name, $show_link, $price, $shared, $public, $_SESSION['username']);
+                        $stmt = $link->prepare("INSERT INTO `lists` (`name`, `link`, `price`, `shared`, `public`, `show_created_by`, `show_created_at`, `created_by`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                        $stmt->bind_param("siiiiiis", $list_name, $show_link, $price, $shared, $public, $show_created_by, $show_created_at, $_SESSION['username']);
                         if ($stmt->execute()) {
                             $stmt->close();
                             echo "<meta http-equiv='refresh' content='0'>";

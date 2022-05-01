@@ -22,6 +22,8 @@ if (isset($_GET['list'])) {
         $price = ($list_array[0]['price'] === 1) ? true : false;
         $shared = ($list_array[0]['shared'] === 1) ? true : false;
         $public = ($list_array[0]['public'] === 1) ? true : false;
+        $created_by = ($list_array[0]['show_created_by'] === 1) ? true : false;
+        $created_at = ($list_array[0]['show_created_at'] === 1) ? true : false;
         echo '<header>';
         echo '<h1>' . ucfirst($list) . ' List</h1>';
         echo '<form method="post" action="/process-function">';
@@ -63,8 +65,8 @@ if (isset($_GET['list'])) {
                             echo '<th>Name</th>';
                             echo ($link_form) ? '<th>Link</th>' : null;
                             echo ($price) ? '<th>Price</th>' : null;
-                            echo '<th>Created</th>';
-                            echo ($shared) ? '<th>Created by</th>' : null;
+                            echo ($created_at) ? '<th>Created</th>' : null;
+                            echo (($shared and $created_by) or $created_by) ? '<th>Created by</th>' : null;
                             echo '<th>Action</th>';
                         echo '</tr>';
                     echo '</thead>';
@@ -81,8 +83,8 @@ if (isset($_GET['list'])) {
                             }
                             //echo ($link_form) and !empty($link_form)) ? '<td class="task"><a href="' . urldecode($task['link']) . '" target="_blank">Link</a></td>' : '<td class="task"></td>';
                             echo ($price) ? '<td class="task contenteditable" data-id="' . $task['id'] . '" data-table="' . $list . '" data-type="price">' . $task['price'] . '</td>' : null;
-                            echo '<td class="task">' . date('d.m.y', strtotime($task["created_at"])) . '</td>';
-                            echo ($shared) ? '<td class="task">' . $task['created_by'] . '</td>' : null;
+                            echo ($created_at) ? '<td class="task">' . date('d.m.y', strtotime($task["created_at"])) . '</td>' : null;
+                            echo (($shared and $created_by) or $created_by) ? '<td class="task">' . $task['created_by'] . '</td>' : null;
                             //echo '<td class="delete"><a href="./list?list=' . $list . '&del_task=' . $task['id'] . '"><button class="delete" data-id="' . $task['id'] . '" data-table="' . $list . '">Delete</button></a></td>';
                             echo ($task['completed'] === 1) ? '<td><button class="undo-complete" data-id="' . $task['id'] . '" data-table="' . $list . '" title="Undo Complete">&#9100;</button><button class="delete-small" data-id="' . $task['id'] . '" data-table="' . $list . '" title="Delete">X</button></td>' : '<td><button class="mark-complete" data-id="' . $task['id'] . '" data-table="' . $list . '" title="Mark Complete">&#10003;</button><button class="delete-small" data-id="' . $task['id'] . '" data-table="' . $list . '" title="Delete">X</button></td>';
                         echo '</tr>';
@@ -91,26 +93,28 @@ if (isset($_GET['list'])) {
             echo '</tbody>';
         echo '</table>';
         if ($public) {
-            /*
             if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === 'on' || $_SERVER['HTTPS'] == 1) || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
                 $protocol = 'https://';
             } else {
                 $protocol = 'http://';
             }
-            */
             $port = '';
             if (parse_url($_SERVER['HTTP_HOST'], PHP_URL_PORT)) {
                 $port = ':' . parse_url($_SERVER['HTTP_HOST'], PHP_URL_PORT);
             }
-
             echo '<h4>Your link to share to the public:</h4>';
             if ($shared) {
-                echo '<p><a href="http://' . $_SERVER['SERVER_NAME'] . $port . '/public?list=' . $list . '" target="_blank">http://' . $_SERVER['SERVER_NAME'] . $port . '/public?list=' . $list . '</a><p>';
+                echo '<p><a href="' . $protocol . $_SERVER['SERVER_NAME'] . $port . '/public?list=' . $list . '" target="_blank">' . $protocol . $_SERVER['SERVER_NAME'] . $port . '/public?list=' . $list . '</a><p>';
             } else {
-                echo '<p><a href="http://' . $_SERVER['SERVER_NAME'] . $port . '/public?name=' . $username . '&list=' . $list . '" target="_blank">http://' . $_SERVER['SERVER_NAME'] . $port . '/public?name=' . $username . '&list=' . $list . '</a><p>';
+                echo '<p><a href="' . $protocol . $_SERVER['SERVER_NAME'] . $port . '/public?name=' . $username . '&list=' . $list . '" target="_blank">' . $protocol . $_SERVER['SERVER_NAME'] . $port . '/public?name=' . $username . '&list=' . $list . '</a><p>';
             }
         }
     }
+    /*
+    echo '<pre>';
+    print_r($_SERVER);
+    echo '</pre>';
+    */
     echo '</main>';
     echo '<script src="./tables.js"></script>';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/pages/footer.php';

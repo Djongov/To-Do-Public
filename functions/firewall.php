@@ -1,7 +1,4 @@
 <?php
-// Allowed IPs List
-//$allowed_ips = ['127.0.0.1', '[::1]', '127.21.0.1'];
-
 // Check if using Cloudflare
 if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
     $connecting_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
@@ -9,7 +6,7 @@ if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
     $connecting_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
 } elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-// Or the usual remote address picked up by PHP
+// Or the Azure client IP header but it has :port number, so remove it
     $connecting_ip = str_replace(strstr($_SERVER['HTTP_CLIENT_IP'], ':'), '', $_SERVER['HTTP_CLIENT_IP']);
 } else {
     // or just use the normal remote addr
@@ -20,11 +17,13 @@ if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
 $allow_list = [
     // Localhost
     '127.0.0.1/32',
-    '[::1]',
     // Allow Private Networks
     '10.0.0.0/8',
     '172.16.0.0/12',
     '192.168.0.0/16',
+    // Allowe personal IPs
+    '92.247.57.179',
+    '151.251.240.0/19',
 ];
 
 // Function to match the CIDR, taken from https://ajagwe.wordpress.com/2013/06/25/block-or-allow-access-to-php-script-based-on-remote-ip-and-cidr-list/
@@ -52,7 +51,6 @@ foreach ($allow_list as $addr) {
         break;
     }
 }
-
 
 // Allow only requests that pass the validation to continue
 if (!$validaddr) {

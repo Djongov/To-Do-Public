@@ -124,18 +124,18 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/pages/header.php';
     <form method="post" autocomplete="off">
     <div>
         <label>Username</label>
-        <input type="text" placeholder="Username" name="username" minlength="3" maxlength="20" value="<?php echo $username; ?>" autocomplete="off" />
+        <input class="task-input" type="text" placeholder="Username" name="username" minlength="3" maxlength="20" value="<?php echo $username; ?>" autocomplete="off" />
     </div>    
     <div>
         <label>Password </label>
-        <input type="password" placeholder="Password" name="password" minlength="4" maxlength="30" title="Must contain at least one  number and one uppercase and lowercase letter, and at least 4 or more characters" value="<?php echo $password; ?>" autocomplete="off" />
+        <input class="task-input" type="password" placeholder="Password" name="password" minlength="4" maxlength="30" title="Must contain at least one  number and one uppercase and lowercase letter, and at least 4 or more characters" value="<?php echo $password; ?>" autocomplete="off" />
     </div>
     <div>
         <label>Confirm Password</label>
-        <input type="password" placeholder="Confirm Password" name="confirm_password" minlength="4" maxlength="30" value="<?php echo htmlspecialchars($confirm_password); ?>" autocomplete="off" />
+        <input class="task-input" type="password" placeholder="Confirm Password" name="confirm_password" minlength="4" maxlength="30" value="<?php echo htmlspecialchars($confirm_password); ?>" autocomplete="off" />
     </div>
     <div>
-        <button type="submit">Submit</button>
+        <button type="submit">Register</button>
         <button type="reset" value="Reset">Reset</button>
     </div>
     </form>
