@@ -67,7 +67,7 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/pages/html-start.php';
             <label>Password</label><br/>
             <input class="task-input" type="password" name="password" required />
         </div>
-        <button type="submit">Login</button>
+        <button class="edit" type="submit">Login</button>
     </form>
     <p><?=$output?></p>
 </div>

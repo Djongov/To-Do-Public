@@ -102,6 +102,7 @@ if (isset($_GET['user'], $_GET['id'])) {
             echo '</table>';
             echo '<button type="submit">Save changes</button>';
         echo '</form>';
+        echo '<a href="./admin"><button>Discard</button></a>';
     echo '</div>';
     } else {
         echo '<p class="red bold">No Result, user does not exist</p>';

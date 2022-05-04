@@ -135,8 +135,8 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/pages/header.php';
         <input class="task-input" type="password" placeholder="Confirm Password" name="confirm_password" minlength="4" maxlength="30" value="<?php echo htmlspecialchars($confirm_password); ?>" autocomplete="off" />
     </div>
     <div>
-        <button type="submit">Register</button>
-        <button type="reset" value="Reset">Reset</button>
+        <button class="edit" type="submit">Register</button>
+        <button class="edit" type="reset" value="Reset">Reset</button>
     </div>
     </form>
     <p><?=$output;?></p>

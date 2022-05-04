@@ -48,7 +48,7 @@ echo '<table class="to-do responsive">';
                         foreach ($row as $column=>$value) {
                             echo '<td>' . $value . '</td>';  
                         }
-                    echo '<td class="delete"><a href="./user-edit?user=' . $row['username'] . '&id=' . $row['id'] . '"><button>Edit</button></a><a href="/admin?del_user=' . $row['id'] . '"><button class="delete">Delete</button></a></td>';
+                    echo '<td class="delete"><a href="./user-edit?user=' . $row['username'] . '&id=' . $row['id'] . '"><button class="edit">Edit</button></a><a href="/admin?del_user=' . $row['id'] . '"><button class="delete">Delete</button></a></td>';
                     echo '</tr>';
                 }
             } else {
@@ -99,7 +99,7 @@ echo '<table class="to-do responsive">';
                         foreach ($row as $column=>$value) {
                             echo '<td>' . $value . '</td>';
                         }
-                        echo '<td><a href="./list-edit?list=' . $row['name'] . '&id=' . $row['id'] . '"><button>Edit</button></a></td>';
+                        echo '<td><a href="./list-edit?list=' . $row['name'] . '&id=' . $row['id'] . '"><button class="edit">Edit</button></a></td>';
                     echo '</tr>';
                 }
             } else {
@@ -116,7 +116,7 @@ echo '<select class="height-50px" name="delete_list">';
         echo '<option value="' . $lists_entries . '">' . $lists_entries . '</option>';
     }
 echo '</select>';
-echo '<button id="delete-list" type="submit">Delete</button>';
+echo '<button class="edit" id="delete-list" type="submit">Delete</button>';
 echo '</div>';
 echo '</form>';
 
@@ -178,7 +178,7 @@ echo '</form>';
 <label for="list-name">
 <input type="text" class="task-input" name="list-name" placeholder="list name..." required />
 </label>
-<button type="submit">Create</button>
+<button type="submit" class="edit">Create</button>
 </form>
 
 <?php

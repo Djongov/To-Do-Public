@@ -21,9 +21,6 @@ $allow_list = [
     '10.0.0.0/8',
     '172.16.0.0/12',
     '192.168.0.0/16',
-    // Allowe personal IPs
-    '92.247.57.179',
-    '151.251.240.0/19',
 ];
 
 // Function to match the CIDR, taken from https://ajagwe.wordpress.com/2013/06/25/block-or-allow-access-to-php-script-based-on-remote-ip-and-cidr-list/

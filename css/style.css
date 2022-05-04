@@ -61,7 +61,6 @@ button {
     font-weight: bold;
     line-height: 2rem;
     color: white;
-    width: 5rem;
 }
 button:hover {
     background-color: black;
@@ -70,6 +69,9 @@ button:hover {
 button > a {
     text-decoration: none;
     color: white;
+}
+button.edit {
+    width: 5rem;
 }
 button.delete-small {
     color: white;
@@ -250,4 +252,5 @@ table.table-center {
 }
 table.table-center td {
     padding: 0.750rem;
+    border: 1px solid black;
 }

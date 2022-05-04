@@ -9,7 +9,7 @@ $stmt = $link->prepare($sql);
 if ($stmt->execute()) {
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
-        while ($row = mysqli_fetch_array($result)) {
+        while ($row = $result->fetch_assoc()) {
                 foreach($result as $row) {
                     $link_from = ($row["link"] === 1) ? true : false;
                     $price = ($row["price"] === 1) ? true : false;
