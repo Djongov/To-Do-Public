@@ -11,7 +11,7 @@ function processTask($category, $link_to_do, $task, $price) {
     // If link is provided it will not be a 'No' so one type of SQL statement
     if (!empty($link_to_do) and !empty($price)) {
         $link_to_do = mysqli_real_escape_string($link, urlencode($_POST['link']));
-        $price = mysqli_real_escape_string($link, urlencode($_POST['price']));
+        $price = floatval(mysqli_real_escape_string($link, urlencode($_POST['price'])));
         $sql = "INSERT INTO `$category` (task, created_by, link, price) VALUES (?, ?, ?, ?)";
         $stmt = $link->prepare($sql);
         $stmt->bind_param("ssss", $task, $username, $link_to_do, $price);
@@ -25,6 +25,19 @@ function processTask($category, $link_to_do, $task, $price) {
         $sql = "INSERT INTO `$category` (task, created_by, link) VALUES (?, ?, ?)";
         $stmt = $link->prepare($sql);
         $stmt->bind_param("sss", $task, $username, $link_to_do);
+        if ($stmt->execute()) {
+        } else {
+            echo $link->error;
+        }
+        $link->close();
+        header("Location: /list?list=" . $category, true, 301);
+        exit();
+    // And if link is empty but price is defined
+    }  elseif (empty($link_to_do) and !empty($price)) {
+        $price = floatval(mysqli_real_escape_string($link, urlencode($_POST['price'])));
+        $sql = "INSERT INTO `$category` (task, created_by, price) VALUES (?, ?, ?)";
+        $stmt = $link->prepare($sql);
+        $stmt->bind_param("sss", $task, $username, $price);
         if ($stmt->execute()) {
         } else {
             echo $link->error;
@@ -52,13 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Only continue if POST argument 'category' and 'task' are set which comes from a hidden input field in each list and from the normal input field for task name
     if (isset($_POST['category']) && isset($_POST['task'])) {
         // Save the task name to a variable
-        $task = htmlspecialchars($_POST['task']);
-        // 
-        $category = htmlspecialchars($_POST['category']);
-        /*
-        (isset($_POST['link'])) ? $link_to_do = htmlspecialchars($_POST['link']) : $link_to_do = false;
-        (isset($_POST['price'])) ? $price = htmlspecialchars($_POST['price']) : $price = false;
-        */
+        $task = strip_tags($_POST['task']);
+        $category = strip_tags($_POST['category']);
         $link_to_do = (isset($_POST['link'])) ? htmlspecialchars($_POST['link']) : '';
         $price = (isset($_POST['price'])) ? htmlspecialchars($_POST['price']) : '';
         processTask($category, $link_to_do, $task, $price);

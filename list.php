@@ -110,11 +110,6 @@ if (isset($_GET['list'])) {
             }
         }
     }
-    /*
-    echo '<pre>';
-    print_r($_SERVER);
-    echo '</pre>';
-    */
     echo '</main>';
     echo '<script src="./tables.js"></script>';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/pages/footer.php';

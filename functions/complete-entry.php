@@ -18,15 +18,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
     }
-    $json_data = file_get_contents('php://input'); // Read the data from the POST request
-    $array = json_decode($json_data, true);
-    if (count($array) > 0) {
+    // Final check for the secret header we've sent from the Javascript fetch (secretheader : badass). Not a big security feature but still something
+    if (isset($_SERVER['HTTP_SECRETHEADER']) and $_SERVER['HTTP_SECRETHEADER'] === 'badass') {
+        // Proceed only if all arguments that should be received in this POST are present
+        if (isset($_POST['id'], $_POST['table'], $_POST['action'])) {
         include_once $_SERVER['DOCUMENT_ROOT'] . '/functions/db.php';
-        (!is_int($array['id'])) ? $id = $array['id'] : die("ID passed not as integer");
-        (isset($array['table'])) ? $table = htmlspecialchars($array["table"]) : '';
-        if ($array['action'] === 'mark-complete') {
+        (!is_int($_POST['id'])) ? $id = $_POST['id'] : die("ID passed not as integer");
+        (isset($_POST['table'])) ? $table = htmlspecialchars($_POST["table"]) : '';
+        if ($_POST['action'] === 'mark-complete') {
             $action = 1;
-        } elseif ($array['action'] === 'undo') {
+        } elseif ($_POST['action'] === 'undo') {
             $action = 0;
         }
         $sql = "UPDATE `$table` SET `completed` = ? WHERE `$table`.`id` = ?";
@@ -38,6 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo "Error: $mysqli->error";
         }
         $stmt->close();
+    } else {
+            echo 'Invalid arguments';
+        }
+    } else {
+        echo 'Oops, something is missing from the request';
     }
 }
 ?>

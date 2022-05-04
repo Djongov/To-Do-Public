@@ -203,7 +203,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $result->free_result();
                     $stmt->close();
 
-                    $stmt = $link->prepare("CREATE TABLE IF NOT EXISTS `$list_name` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `task` VARCHAR(255) NULL , `link` VARCHAR(255) NULL , `price` VARCHAR(255) NULL , completed BOOLEAN DEFAULT 0 , `created_by` VARCHAR(60) NOT NULL , `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+                    $stmt = $link->prepare("CREATE TABLE IF NOT EXISTS `$list_name` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `task` VARCHAR(255) NULL , `link` VARCHAR(2083) NULL , `price` VARCHAR(255) NULL , completed BOOLEAN DEFAULT 0 , `created_by` VARCHAR(60) NOT NULL , `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
                     if ($stmt->execute()) {
                         $stmt->close();
                         $stmt = $link->prepare("INSERT INTO `lists` (`name`, `link`, `price`, `shared`, `public`, `show_created_by`, `show_created_at`, `created_by`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");

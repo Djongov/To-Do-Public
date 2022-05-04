@@ -19,9 +19,9 @@ services:
     #volumes:
       #- d2:/vol
     environment:
-      MYSQL_USER: Djongov
-      MYSQL_PASSWORD: 19MySQL86$$
-      MYSQL_ROOT_PASSWORD: 19MySQL86$$
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: :~QB;sh5a%K
+      MYSQL_ROOT_PASSWORD: :~QB;sh5a%K
       SERVICE_NAME: mysql
   phpmyadmin:
     depends_on:

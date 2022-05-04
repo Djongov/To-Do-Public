@@ -1,5 +1,5 @@
 FROM php:8.1-apache
-ENV DB_PASS=19MySQL86$$
+ENV DB_PASS=:~QB;sh5a%K
 COPY . /var/www/html/
 ARG phpIniPath=/usr/local/etc/php/php.ini
 #RUN cp /usr/local/etc/php/php.ini-production $phpIniPath

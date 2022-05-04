@@ -1,5 +1,8 @@
 <?php
 /*
+This was used back when we didn't delete tasks with javascript but with pure PHP
+
+
 // Removing the unnecessary portion of the URL so we can redirect to the proper page
 function removeqsvar($url, $varname) {
     return preg_replace('/([?&])'.$varname.'=[^&]+(&|$)/','$1',$url);
@@ -23,38 +26,36 @@ if (isset($_GET['del_task'], $_GET['list'])) {
     }
 }
 */
+
+// Only proceed if the method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ((isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']))) {
-        // Because some implementations are localhost:portnumber, let's see if there is a port first
-        if ((parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PORT))) {
-            // Compare the REFERER HOST:PORT part of the URL to the HTTP Host header, if they are not the same, exit script
-            if (strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST)) . ':' . parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PORT) !== strtolower($_SERVER['HTTP_HOST'])) {
-                echo "Invalid source of request. Request coming from " . strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST)) . ':' . parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PORT) . " which is not the same as " . strtolower($_SERVER['HTTP_HOST']);
-                die();
+    // Final check for the secret header we've sent from the Javascript fetch (secretheader : badass). Not a big security feature but still something
+    if (isset($_SERVER['HTTP_SECRETHEADER']) and $_SERVER['HTTP_SECRETHEADER'] === 'badass') {
+        // Proceed only if all arguments that should be received in this POST are present
+        if (isset($_POST['id'], $_POST['table'])) {
+            // if id is not an integer kill script
+            (!is_int($_POST['id'])) ? $id = $_POST['id'] : die("ID passed not as integer");
+            // if table is not present or is empty kill script
+            (isset($_POST['table']) and !empty($_POST['table'])) ? $table = htmlspecialchars($_POST["table"]) : die("table must be passed and not be empty");
+            // include db file
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/functions/db.php';
+            // prepare the statement
+            $stmt = $link->prepare("DELETE FROM `$table` WHERE id=?");
+            // bind params
+            $stmt->bind_param("s", $id);
+            // attempt to execute
+            if ($stmt->execute()) {
+                // return OK so that the JavaScript script will trigger the remove of the table row
+                echo 'OK';
+            } else {
+                // or return the error
+                echo $stmt->error;
             }
-        // If there is no port
         } else {
-            // If REFERER host is not the same as HTTP Host
-            if (strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST)) !== strtolower($_SERVER['HTTP_HOST'])) {
-                echo "Invalid source of request. Request coming from " . strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST)) . " which is not the same as " . strtolower($_SERVER['HTTP_HOST']);
-                die();
-            }
+            echo 'Invalid arguments';
         }
-    }
-    $json_data = file_get_contents('php://input'); // Read the data from the POST request
-    $array = json_decode($json_data, true);
-    if (count($array) > 0) {
-        (!is_int($array['id'])) ? $id = $array['id'] : die("ID passed not as integer");
-        (isset($array['table'])) ? $table = htmlspecialchars($array["table"]) : '';
-        include_once $_SERVER['DOCUMENT_ROOT'] . '/functions/db.php';
-        $stmt = $link->prepare("DELETE FROM `$table` WHERE id=?");
-        $stmt->bind_param("s", $id);
-        if ($stmt->execute()) {
-            // return OK so that the JavaScript script will trigger the remove of the table row
-            echo 'OK';
-        } else {
-            echo $stmt->error();
-        }
+    } else {
+        echo 'Oops, something is missing from the request';
     }
 }
 ?>

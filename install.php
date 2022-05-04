@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div>
             <label for="database">Database User password</label>
-            <input class="task-input" type="password" name="database-password" value="<?=(isset($_POST['database-password'])) ? htmlspecialchars($_POST['database-password']): null;?>" required />
+            <input class="task-input" type="password" name="database-password" placeholder="<?=(getenv('DB_PASS')) ? htmlspecialchars(getenv('DB_PASS')): null;?>" value="<?=(isset($_POST['database-password'])) ? htmlspecialchars($_POST['database-password']): null;?>" required />
         </div>
         <hr />
         <p>These will be the To-Do account details. This account you will use to login after the installation is complete.</p>
