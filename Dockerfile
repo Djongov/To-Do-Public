@@ -17,7 +17,7 @@ RUN sed -E -i -e 's/max_execution_time = 30/max_execution_time = 120/' $phpIniPa
 RUN docker-php-ext-install \
     mysqli
 RUN apt-get update
-RUN ["apt-get", "install", "-y", "vim"]
+#RUN ["apt-get", "install", "-y", "vim"]
 RUN a2enmod rewrite
 RUN a2enmod headers
 RUN service apache2 restart

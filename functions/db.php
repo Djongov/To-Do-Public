@@ -3,7 +3,12 @@ include_once dirname(dirname(__FILE__)) . '/site-config.php';
  
 /* Attempt to connect to MySQL database */
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$link = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+$link = mysqli_init();
+if (defined('DB_SSL')) {
+    $link->real_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT, null, MYSQLI_CLIENT_SSL | MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+} else {
+    $link->real_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_PORT);
+}
 
 // Check connection
 if($link === false) {

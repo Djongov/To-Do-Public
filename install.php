@@ -3,11 +3,16 @@ include_once $_SERVER['DOCUMENT_ROOT']. '/pages/header.php';
 include_once $_SERVER['DOCUMENT_ROOT']. '/pages/html-start.php';
 $output = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['database-server'], $_POST['database-name'], $_POST['database-user'], $_POST['database-password'], $_POST['admin-user'], $_POST['admin-password'], $_POST['admin-password-confirm'])) {
+    if (isset($_POST['database-server'], $_POST['database-name'], $_POST['database-user'], $_POST['database-password'], $_POST['database-port'], $_POST['admin-user'], $_POST['admin-password'], $_POST['admin-password-confirm'])) {
         /* Attempt to connect to MySQL database */
         ini_set('display_errors', 'On');
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-        $link = mysqli_connect($_POST['database-server'], $_POST['database-user'], $_POST['database-password']);
+        $link = mysqli_init();
+        if ((isset($_POST["mysql-ssl"]))) {
+            $link->real_connect($_POST['database-server'], $_POST['database-user'], $_POST['database-password'], null, $_POST['database-port'], null, MYSQLI_CLIENT_SSL | MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT);
+        } else {
+            $link->real_connect($_POST['database-server'], $_POST['database-user'], $_POST['database-password'], null, $_POST['database-port']);
+        }
         // Check connection
         if ($link !== false) {
             $output .= '<p class="green bold">Database Connection established</p>';
@@ -46,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     $database_user = $_POST['database-user'];
                                     $database_password = $_POST['database-password'];
                                     $database_name = $_POST['database-name'];
+                                    $database_port = $_POST['database-port'];
                                     touch('./site-config.php');
                                     $site_config = <<<EOL
                                     <?php
@@ -53,8 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     define('DB_USERNAME', '$database_user');
                                     define('DB_PASSWORD', '$database_password');
                                     define('DB_NAME', '$database_name');
-                                    ?>
+                                    define('DB_PORT', '$database_port');
                                     EOL;
+                                    if ((isset($_POST["mysql-ssl"]))) {
+                                        $site_config .= PHP_EOL . "define('DB_SSL', true);" . PHP_EOL . "?>";
+                                    }
                                     if (file_put_contents('./site-config.php', $site_config)) {
                                         $output .= '<h1 class="green bold>Configuration set successfully</h1>';
                                         $output .= '<a href="/login"><button>Login</button></a>';
@@ -107,34 +116,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="post" action="">
     <p>These are the database connection settings. </p>
         <div>
-            <label for="database">Database Server</label>
+            <label for="database-server">Database Server</label>
             <input class="task-input" type="text" name="database-server" placeholder="mysql" value="<?=(isset($_POST['database-server'])) ? htmlspecialchars($_POST['database-server']): null;?>" required />
         </div>
         <div>
-            <label for="database">Database Name</label>
+            <label for="database-port">Database Port</label>
+            <input class="task-input" type="number" name="database-port" placeholder="3306" value="<?=(isset($_POST['database-port'])) ? htmlspecialchars($_POST['database-port']): 3306;?>" required />
+        </div>
+        <div>
+            <label for="database-name">Database Name</label>
             <input class="task-input" type="text" name="database-name" placeholder="'to-do' for example" value="<?=(isset($_POST['database-name'])) ? htmlspecialchars($_POST['database-name']): null;?>" required />
         </div>
         <div>
-            <label for="database">Database User</label>
+            <label for="database-user">Database User</label>
             <input class="task-input" type="text" name="database-user" placeholder="root" value="<?=(isset($_POST['database-user'])) ? htmlspecialchars($_POST['database-user']): null;?>" required />
         </div>
         <div>
-            <label for="database">Database User password</label>
+            <label for="database-password">Database User password</label>
             <input class="task-input" type="password" name="database-password" placeholder="<?=(getenv('DB_PASS')) ? htmlspecialchars(getenv('DB_PASS')): null;?>" value="<?=(isset($_POST['database-password'])) ? htmlspecialchars($_POST['database-password']): null;?>" required />
         </div>
         <hr />
         <p>These will be the To-Do account details. This account you will use to login after the installation is complete.</p>
         <div>
-            <label for="database">Admin username</label>
+            <label for="admin-user">Admin username</label>
             <input class="task-input" type="text" name="admin-user" value="<?=(isset($_POST['admin-user'])) ? htmlspecialchars($_POST['admin-user']): null;?>" required />
         </div>
         <div>
-            <label for="database">Admin password</label>
+            <label for="admin-password">Admin password</label>
             <input class="task-input" type="password" name="admin-password" value="<?=(isset($_POST['admin-password'])) ? htmlspecialchars($_POST['admin-password']): null;?>" required />
         </div>
         <div>
-            <label for="database">Confirm Admin password</label>
+            <label for="admin-password-confirm">Confirm Admin password</label>
             <input class="task-input" type="password" name="admin-password-confirm" value="<?=(isset($_POST['admin-password-confirm'])) ? htmlspecialchars($_POST['admin-password-confirm']): null;?>" required />
+        </div>
+        <div>
+            <input type="checkbox" name="mysql-ssl" />
+            <label for="mysql_ssl">MySQL SSL?</label>
         </div>
         <div>
             <button type="submit">Install</button>

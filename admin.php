@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/functions/firewall.php';
+//include_once $_SERVER['DOCUMENT_ROOT'] . '/functions/firewall.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/functions/db.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/functions/session.php';
 // delete user before any html is output
